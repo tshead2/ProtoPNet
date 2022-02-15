@@ -6,8 +6,8 @@ import os
 import copy
 import time
 
-from receptive_field import compute_rf_prototype
-from helpers import makedir, find_high_activation_crop
+from ppnet.receptive_field import compute_rf_prototype
+from ppnet.helpers import makedir, find_high_activation_crop
 
 # push each prototype to the nearest patch in the training set
 def push_prototypes(dataloader, # pytorch dataloader (must be unnormalized in [0,1])

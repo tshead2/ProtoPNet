@@ -1,7 +1,7 @@
 import time
 import torch
 
-from helpers import list_of_distances, make_one_hot
+from ppnet.helpers import list_of_distances, make_one_hot
 
 def _train_or_test(model, dataloader, optimizer=None, class_specific=True, use_l1_mask=True,
                    coefs=None, log=print):

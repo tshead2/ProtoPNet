@@ -1,23 +1,24 @@
+#!/bin/env python
+
+import argparse
+import re
 import os
 import shutil
 
 import torch
 import torch.utils.data
-# import torch.utils.data.distributed
-import torchvision.transforms as transforms
 import torchvision.datasets as datasets
+import torchvision.transforms as transforms
 
-import argparse
-import re
+from ppnet.helpers import makedir
+from ppnet.log import create_logger
+from ppnet.preprocess import mean, std, preprocess_input_function
+import ppnet.model as model
+import ppnet.prune as prune
+import ppnet.push as push
+import ppnet.save as save
+import ppnet.train_and_test as tnt
 
-from helpers import makedir
-import model
-import push
-import prune
-import train_and_test as tnt
-import save
-from log import create_logger
-from preprocess import mean, std, preprocess_input_function
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-gpuid', nargs=1, type=str, default='0') # python3 main.py -gpuid=0,1,2,3
@@ -26,18 +27,17 @@ os.environ['CUDA_VISIBLE_DEVICES'] = args.gpuid[0]
 print(os.environ['CUDA_VISIBLE_DEVICES'])
 
 # book keeping namings and code
-from settings import base_architecture, img_size, prototype_shape, num_classes, \
-                     prototype_activation_function, add_on_layers_type, experiment_run
+from settings import base_architecture, img_size, prototype_shape, num_classes, prototype_activation_function, add_on_layers_type, experiment_run
 
 base_architecture_type = re.match('^[a-z]*', base_architecture).group(0)
 
 model_dir = './saved_models/' + base_architecture + '/' + experiment_run + '/'
 makedir(model_dir)
-shutil.copy(src=os.path.join(os.getcwd(), __file__), dst=model_dir)
-shutil.copy(src=os.path.join(os.getcwd(), 'settings.py'), dst=model_dir)
-shutil.copy(src=os.path.join(os.getcwd(), base_architecture_type + '_features.py'), dst=model_dir)
-shutil.copy(src=os.path.join(os.getcwd(), 'model.py'), dst=model_dir)
-shutil.copy(src=os.path.join(os.getcwd(), 'train_and_test.py'), dst=model_dir)
+#shutil.copy(src=os.path.join(os.getcwd(), __file__), dst=model_dir)
+#shutil.copy(src=os.path.join(os.getcwd(), 'settings.py'), dst=model_dir)
+#shutil.copy(src=os.path.join(os.getcwd(), base_architecture_type + '_features.py'), dst=model_dir)
+#shutil.copy(src=os.path.join(os.getcwd(), 'model.py'), dst=model_dir)
+#shutil.copy(src=os.path.join(os.getcwd(), 'train_and_test.py'), dst=model_dir)
 
 log, logclose = create_logger(log_filename=os.path.join(model_dir, 'train.log'))
 img_dir = os.path.join(model_dir, 'img')
@@ -136,7 +136,6 @@ from settings import num_train_epochs, num_warm_epochs, push_start, push_epochs
 
 # train the model
 log('start training')
-import copy
 for epoch in range(num_train_epochs):
     log('epoch: \t{0}'.format(epoch))
 

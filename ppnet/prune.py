@@ -4,8 +4,8 @@ from collections import Counter
 import numpy as np
 import torch
 
-from helpers import makedir
-import find_nearest
+from ppnet.helpers import makedir
+import ppnet.find_nearest as find_nearest
 
 def prune_prototypes(dataloader,
                      prototype_network_parallel,

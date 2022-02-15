@@ -1,4 +1,6 @@
-__pycache__
+*.egg-info
+*.pyc
+.ipynb_checkpoints
 datasets
 local_analysis
 pretrained_models
