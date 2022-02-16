@@ -14,13 +14,13 @@ import re
 import os
 import copy
 
-from helpers import makedir, find_high_activation_crop
-import model
-import push
-import train_and_test as tnt
-import save
-from log import create_logger
-from preprocess import mean, std, preprocess_input_function, undo_preprocess_input_function
+from ppnet.helpers import makedir, find_high_activation_crop
+import ppnet.model as model
+import ppnet.push as push
+import ppnet.train_and_test as tnt
+import ppnet.save as save
+from ppnet.log import create_logger
+from ppnet.preprocess import mean, std, preprocess_input_function, undo_preprocess_input_function
 
 import argparse
 

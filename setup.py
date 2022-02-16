@@ -7,6 +7,7 @@ setup(
     ],
     packages=find_packages(),
     scripts=[
+        "bin/ppnet-test",
         "bin/ppnet-train",
     ],
     version=re.search(
