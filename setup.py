@@ -7,6 +7,7 @@ setup(
     ],
     packages=find_packages(),
     scripts=[
+        "bin/ppnet-augment",
         "bin/ppnet-test",
         "bin/ppnet-train",
     ],

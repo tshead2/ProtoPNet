@@ -1,0 +1,50 @@
+#!/bin/env python
+
+import argparse
+import itertools
+import os
+
+import Augmentor
+
+parser = argparse.ArgumentParser(description="Augment training data for use with ppnet-train.")
+parser.add_argument("root", help="Dataset root directory containing a 'train_cropped' subdirectory.")
+
+
+if __name__ == "__main__":
+    arguments = parser.parse_args()
+
+    traindir = os.path.join(arguments.root, "train_cropped")
+
+    for dirpath, dirnames, filenames in itertools.islice(os.walk(traindir), 1, None):
+        sourcedir = os.path.abspath(dirpath)
+        targetdir = os.path.abspath(dirpath.replace("train_cropped", "train_cropped_augmented"))
+        print(sourcedir, targetdir)
+
+        # Create rotated variations
+        pipeline = Augmentor.Pipeline(source_directory=sourcedir, output_directory=targetdir)
+        pipeline.rotate(probability=1, max_left_rotation=15, max_right_rotation=15)
+        pipeline.flip_left_right(probability=0.5)
+        for index in range(10):
+            pipeline.process()
+
+        # Create skewed variations
+        pipeline = Augmentor.Pipeline(source_directory=sourcedir, output_directory=targetdir)
+        pipeline.skew(probability=1, magnitude=0.2)  # max 45 degrees
+        pipeline.flip_left_right(probability=0.5)
+        for index in range(10):
+            pipeline.process()
+
+        # Create sheared variations
+        pipeline = Augmentor.Pipeline(source_directory=sourcedir, output_directory=targetdir)
+        pipeline.shear(probability=1, max_shear_left=10, max_shear_right=10)
+        pipeline.flip_left_right(probability=0.5)
+        for index in range(10):
+            pipeline.process()
+
+        # random_distortion
+        #p = Augmentor.Pipeline(source_directory=fd, output_directory=tfd)
+        #p.random_distortion(probability=1.0, grid_width=10, grid_height=10, magnitude=5)
+        #p.flip_left_right(probability=0.5)
+        #for i in range(10):
+        #    p.process()
+        #del p

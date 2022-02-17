@@ -15,7 +15,7 @@ Recommended hardware: 4 NVIDIA Tesla P-100 GPUs or 8 NVIDIA Tesla K-80 GPUs
 Instructions for preparing the data:
 1. Download the dataset CUB_200_2011.tgz from http://www.vision.caltech.edu/visipedia/CUB-200-2011.html
 2. Unpack CUB_200_2011.tgz into "../CUB_200_2011/"
-3. Preprocess the CUB_200_2011 dataset using img_crop.py (included in this code package)
+3. Preprocess the CUB_200_2011 dataset using crop-cub.py (included in this code package)
    -- this will finish the following procedure:
       a. Crop the images using information from bounding_boxes.txt (included in the dataset)
       b. Split the cropped images into training and test sets, using train_test_split.txt (included in the dataset)
